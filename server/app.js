@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import { initDatabase } from "./db.js";
-import itemsRouter from "./routes/itemsRouter.js";
+import records from "./routes/records.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/api/items", itemsRouter);
+app.use("/api/records", records);
 
 initDatabase()
   .then(() => {
