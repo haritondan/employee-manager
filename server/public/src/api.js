@@ -1,18 +1,18 @@
 export async function fetchItems(params) {
   const query = new URLSearchParams(params);
-  const res = await fetch(`/api/items?${query.toString()}`);
+  const res = await fetch(`/api/records?${query.toString()}`);
   if (!res.ok) throw new Error("Network response failed");
   return res.json();
 }
 
 export async function fetchItemById(id) {
-  const res = await fetch(`/api/items/${id}`);
+  const res = await fetch(`/api/records/${id}`);
   if (!res.ok) throw new Error("Item not found");
   return res.json();
 }
 
 export async function saveItem(id, payload) {
-  const url = id ? `/api/items/${id}` : "/api/items";
+  const url = id ? `/api/records/${id}` : "/api/records";
   const method = id ? "PUT" : "POST";
 
   const res = await fetch(url, {
@@ -25,7 +25,7 @@ export async function saveItem(id, payload) {
 }
 
 export async function deleteItem(id) {
-  const res = await fetch(`/api/items/${id}`, { method: "DELETE" });
+  const res = await fetch(`/api/records/${id}`, { method: "DELETE" });
   if (!res.ok) throw new Error("Delete operation failed");
   return res.json();
 }

@@ -10,9 +10,9 @@ export const pool = new Pool({
     "postgres://app_user:app_password@localhost:5432/mega_lorem",
 });
 
-const itemsQueries = {
-  createItemsTable: `
-      CREATE TABLE IF NOT EXISTS items (
+const recordsQueries = {
+  createRecordsTable: `
+      CREATE TABLE IF NOT EXISTS records (
         id SERIAL PRIMARY KEY,
         name VARCHAR(100) NOT NULL,
         email VARCHAR(150) NOT NULL,
@@ -22,24 +22,22 @@ const itemsQueries = {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `,
-  selectItemsFromItemsTable: `SELECT COUNT(*) FROM items`,
-  insertItem: `
-        INSERT INTO items (name, email, department, role, status)
+  getRecords: `SELECT COUNT(*) FROM records`,
+  insertRecord: `
+        INSERT INTO records (name, email, department, role, status)
         VALUES ($1, $2, $3, $4, $5);
       `,
 };
 
 export async function initDatabase() {
   const client = await pool.connect();
-  const { insertItem, createItemsTable, selectItemsFromItemsTable } =
-    itemsQueries;
+  const { insertRecord, createRecordsTable, getRecords } = recordsQueries;
 
   try {
-    await client.query(createItemsTable);
-    const countResult = await client.query(selectItemsFromItemsTable);
+    await client.query(createRecordsTable);
+    const countResult = await client.query(getRecords);
     const rowCount = parseInt(countResult.rows[0].count, 10);
 
-    // 3. Seed 200 records if empty
     if (rowCount === 0) {
       console.log("Seeding 200 records into PostgreSQL...");
       await client.query("BEGIN");
@@ -51,7 +49,13 @@ export async function initDatabase() {
         const role = faker.person.jobTitle();
         const status = statuses[Math.floor(Math.random() * statuses.length)];
 
-        await client.query(insertItem, [name, email, department, role, status]);
+        await client.query(insertRecord, [
+          name,
+          email,
+          department,
+          role,
+          status,
+        ]);
       }
 
       await client.query("COMMIT");
