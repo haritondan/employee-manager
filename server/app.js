@@ -1,8 +1,9 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import { initDatabase } from "./db.js";
-import records from "./routes/records.js";
+import { initDatabase } from "./src/db.js";
+import recordsRouter from "./src/routes/records.js";
+import { errorHandler } from "./src/utils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,8 +16,9 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/api/records", records);
+app.use("/api/records", recordsRouter);
 
+app.use(errorHandler);
 initDatabase()
   .then(() => {
     app.listen(PORT, () => {
