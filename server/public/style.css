@@ -10,7 +10,6 @@
   --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.3);
 }
 
-/* Requirement 4: Prevents content from shifting when scrollbar is hidden */
 html {
   scrollbar-gutter: stable;
   box-sizing: border-box;
@@ -88,6 +87,33 @@ body {
   outline: none;
   box-shadow: var(--focus-ring);
   border-color: var(--primary);
+}
+
+.limit-box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.limit-box select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: white;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.limit-box select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--focus-ring);
 }
 
 /* -----------------------------------------------------------------------------
@@ -218,6 +244,77 @@ body {
 }
 
 /* -----------------------------------------------------------------------------
+   PAGINATION STYLES
+   ----------------------------------------------------------------------------- */
+.pagination-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.pages-container {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: white;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.page:hover:not(.page-active) {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.page:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-color: var(--primary);
+}
+
+.page-active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  font-weight: 600;
+}
+
+/* Truncation Dots (...) */
+.page-dots {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 40px;
+  color: #64748b;
+  font-weight: 600;
+  user-select: none;
+}
+
+.btn-nav {
+  min-height: 40px;
+  padding: 0 0.875rem;
+  font-size: 0.875rem;
+}
+
+/* -----------------------------------------------------------------------------
    NATIVE <dialog> POP-UP & CSS ANIMATIONS (Req 3, 4, 5, 11)
    ----------------------------------------------------------------------------- */
 dialog.modal {
@@ -244,7 +341,6 @@ dialog.modal[open] {
   transform: scale(1);
 }
 
-/* Requirement 5: Entry animation trigger */
 @starting-style {
   dialog.modal[open] {
     opacity: 0;
@@ -252,7 +348,6 @@ dialog.modal[open] {
   }
 }
 
-/* Modal Backdrop Backdrop Animation */
 dialog.modal::backdrop {
   background-color: rgba(0, 0, 0, 0);
   transition:
@@ -351,10 +446,6 @@ dialog.modal[open]::backdrop {
   margin-top: 1.5rem;
 }
 
-.page-active {
-  background-color: red;
-}
-
 /* -----------------------------------------------------------------------------
    REQUIREMENT 7: RESPONSIVE MOBILE CARD TRANSFORMATION (< 768px)
    ----------------------------------------------------------------------------- */
@@ -369,7 +460,6 @@ dialog.modal[open]::backdrop {
   }
 
   .data-table thead {
-    /* Visually hide table header row while preserving screen-reader accessibility */
     position: absolute;
     top: -9999px;
     left: -9999px;
@@ -396,7 +486,6 @@ dialog.modal[open]::backdrop {
     border-bottom: none;
   }
 
-  /* Dynamically attach field labels from the data-label attribute */
   .data-table td::before {
     content: attr(data-label);
     font-weight: 600;
@@ -408,6 +497,19 @@ dialog.modal[open]::backdrop {
   .action-buttons {
     justify-content: flex-end;
     width: 100%;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box {
+    max-width: 100%;
+  }
+
+  .limit-box {
+    justify-content: flex-end;
   }
 
   dialog.modal {
