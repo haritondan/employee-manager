@@ -15,7 +15,6 @@
         </button>
       </header>
 
-      <!-- Filter & Live Search Toolbar -->
       <div class="toolbar">
         <div class="search-box">
           <label for="searchInput" class="sr-only">Search</label>
@@ -27,18 +26,17 @@
           />
         </div>
         <div id="activeFilterBadge" class="filter-status"></div>
-        <div>
-          <label for="limit">Number of Elements</label>
+        <div class="limit-box">
+          <label for="limit">Show</label>
           <select id="limit" name="limit" required>
             <option value="5">5</option>
-            <option value="10">10</option>
+            <option value="10" selected>10</option>
             <option value="15">15</option>
             <option value="20">20</option>
           </select>
         </div>
       </div>
 
-      <!-- Table Container (Responsive Card view on mobile) -->
       <div class="table-wrapper">
         <table class="data-table">
           <thead>
@@ -73,16 +71,19 @@
         </div>
       </div>
 
-      <div id="pagination">
-        <button id="prevPage">prev</button>
+      <div id="pagination" class="pagination-wrapper">
+        <button type="button" id="prevPage" class="btn btn-secondary btn-nav">
+          &laquo; Prev
+        </button>
         <div id="pagesContainer" class="pages-container">
-          <button class="page page-active" data-page="id">1</button>
+          <!-- Dynamic page buttons dynamically populated by app.js -->
         </div>
-        <button id="nextPage" data-page="+1">next</button>
+        <button type="button" id="nextPage" class="btn btn-secondary btn-nav">
+          Next &raquo;
+        </button>
       </div>
     </div>
 
-    <!-- Add / Edit Modal (Req 3, 4, 5, 10, 11) -->
     <dialog id="formDialog" class="modal">
       <div class="modal-content">
         <div class="modal-header">
@@ -172,7 +173,6 @@
       </div>
     </dialog>
 
-    <!-- Delete Confirmation Modal (Req 1, 3, 4, 5, 11) -->
     <dialog id="deleteDialog" class="modal">
       <div class="modal-content">
         <div class="modal-header">
