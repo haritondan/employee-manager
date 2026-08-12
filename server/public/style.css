@@ -351,6 +351,10 @@ dialog.modal[open]::backdrop {
   margin-top: 1.5rem;
 }
 
+.page-active {
+  background-color: red;
+}
+
 /* -----------------------------------------------------------------------------
    REQUIREMENT 7: RESPONSIVE MOBILE CARD TRANSFORMATION (< 768px)
    ----------------------------------------------------------------------------- */

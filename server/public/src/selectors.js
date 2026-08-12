@@ -29,4 +29,10 @@ export default {
     roleInput: document.getElementById("role"),
     statusInput: document.getElementById("status"),
   },
+  pagination: {
+    prevPageBtn: document.getElementById("prevPage"),
+    nextPageBtn: document.getElementById("nextPage"),
+    pagesContainer: document.getElementById("pagesContainer"),
+    limit: document.getElementById("limit"),
+  },
 };

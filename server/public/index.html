@@ -27,6 +27,15 @@
           />
         </div>
         <div id="activeFilterBadge" class="filter-status"></div>
+        <div>
+          <label for="limit">Number of Elements</label>
+          <select id="limit" name="limit" required>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+        </div>
       </div>
 
       <!-- Table Container (Responsive Card view on mobile) -->
@@ -62,6 +71,14 @@
         <div id="noResults" class="no-results hidden">
           No matching records found.
         </div>
+      </div>
+
+      <div id="pagination">
+        <button id="prevPage">prev</button>
+        <div id="pagesContainer" class="pages-container">
+          <button class="page page-active" data-page="id">1</button>
+        </div>
+        <button id="nextPage" data-page="+1">next</button>
       </div>
     </div>
 

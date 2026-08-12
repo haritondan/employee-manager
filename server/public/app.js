@@ -12,6 +12,7 @@ import {
   clearInputError,
   getActiveDeleteId,
 } from "./src/components/modals.js";
+import { renderPages } from "./src/components/pagination.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   let searchTimeout = null;
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       statusInput,
       roleInput,
     },
+    pagination: { pagesContainer, limit },
   } = selectors;
 
   async function fetchAndRender() {
@@ -37,8 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
         search: state.search,
         sortBy: state.sortBy,
         order: state.order,
+        page: state.page,
+        limit: state.limit,
       });
       renderTable(items);
+      renderPages([1, 2, 3, 4, 5], state.page);
     } catch (err) {
       console.error("Fetch error:", err);
     }
@@ -163,6 +168,26 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       console.error(err);
     }
+  });
+
+  pagesContainer.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-page]");
+    if (!btn) return;
+
+    const page = parseInt(btn.dataset.page);
+    if (page) {
+      state.page = page;
+      updateURL();
+      fetchAndRender();
+    }
+  });
+
+  limit.addEventListener("change", (e) => {
+    e.preventDefault();
+
+    state.limit = parseInt(e.target.value);
+    updateURL();
+    fetchAndRender();
   });
 
   // Initial Boot Sequence
