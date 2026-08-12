@@ -1,31 +1,54 @@
 export async function fetchItems(params) {
   const query = new URLSearchParams(params);
-  const res = await fetch(`/api/records?${query.toString()}`);
-  if (!res.ok) throw new Error("Network response failed");
-  return res.json();
+  return apiFetch(`/api/records?${query.toString()}`);
 }
 
 export async function fetchItemById(id) {
-  const res = await fetch(`/api/records/${id}`);
-  if (!res.ok) throw new Error("Item not found");
-  return res.json();
+  return apiFetch(`/api/records/${id}`);
 }
 
 export async function saveItem(id, payload) {
   const url = id ? `/api/records/${id}` : "/api/records";
   const method = id ? "PUT" : "POST";
 
-  const res = await fetch(url, {
+  return apiFetch(url, {
     method,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error("Save operation failed");
-  return res.json();
 }
 
 export async function deleteItem(id) {
-  const res = await fetch(`/api/records/${id}`, { method: "DELETE" });
-  if (!res.ok) throw new Error("Delete operation failed");
-  return res.json();
+  return apiFetch(`/api/records/${id}`, { method: "DELETE" });
+}
+
+async function apiFetch(endpoint, options = {}) {
+  try {
+    const res = await fetch(endpoint, options);
+
+    if (!res.ok) {
+      let errorMessage = `Request failed with status ${res.status}`;
+
+      try {
+        const errData = await res.json();
+        if (errData?.errors?.length) {
+          errorMessage = errData.errors.map((e) => e.msg).join(", ");
+        } else if (errData?.message) {
+          errorMessage = errData.message;
+        }
+      } catch {
+        errorMessage = await res.text().catch(() => res.statusText);
+      }
+
+      throw new Error(errorMessage);
+    }
+
+    if (res.status === 204) return null;
+
+    return await res.json();
+  } catch (err) {
+    throw err instanceof Error
+      ? err
+      : new Error("An unexpected error occurred");
+  }
 }

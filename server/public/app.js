@@ -13,6 +13,7 @@ import {
   getActiveDeleteId,
 } from "./src/components/modals.js";
 import { changePage, renderPages } from "./src/components/pagination.js";
+import { showErrorToast } from "./src/components/errorToast.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   let searchTimeout = null;
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     inputs: { searchInput },
     btns: { confirmDeleteBtn, openAddBtn },
     modals: { formDialog, deleteDialog, closeModalBtns },
-    forms: { itemForm, formInputs },
+    forms: { itemForm, formInputs, errorMsg },
     addEditInputs: {
       nameInput,
       emailInput,
@@ -45,7 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
       renderTable(data);
       renderPages(pagination);
     } catch (err) {
-      console.error("Fetch error:", err);
+      showErrorToast(err);
+      console.error(err);
     }
   }
 
@@ -150,11 +152,11 @@ document.addEventListener("DOMContentLoaded", () => {
       closeAllModals();
       fetchAndRender();
     } catch (err) {
+      errorMsg.textContent = err.message;
       console.error(err);
     }
   });
 
-  // Delete Action
   confirmDeleteBtn.addEventListener("click", async () => {
     const id = getActiveDeleteId();
     if (!id) return;

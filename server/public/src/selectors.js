@@ -21,6 +21,7 @@ export default {
   forms: {
     itemForm: document.getElementById("itemForm"),
     formInputs: itemForm.querySelectorAll("input, select"),
+    errorMsg: document.getElementById("formError"),
   },
   addEditInputs: {
     nameInput: document.getElementById("name"),

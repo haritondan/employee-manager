@@ -5,7 +5,7 @@ import { fetchItemById } from "../api.js";
 const {
   table: { rowId },
   modals: { formDialog, title, deleteDialog },
-  forms: { itemForm },
+  forms: { itemForm, errorMsg },
   addEditInputs: {
     nameInput,
     emailInput,
@@ -70,6 +70,7 @@ export function closeAllModals() {
   if (formDialog.open) formDialog.close();
   if (deleteDialog.open) deleteDialog.close();
 
+  errorMsg.textContent = "";
   state.modal = null;
   state.activeId = null;
   updateURL();
