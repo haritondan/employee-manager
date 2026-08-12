@@ -12,7 +12,7 @@ import {
   clearInputError,
   getActiveDeleteId,
 } from "./src/components/modals.js";
-import { renderPages } from "./src/components/pagination.js";
+import { changePage, renderPages } from "./src/components/pagination.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   let searchTimeout = null;
@@ -30,20 +30,20 @@ document.addEventListener("DOMContentLoaded", () => {
       statusInput,
       roleInput,
     },
-    pagination: { pagesContainer, limit },
+    pagination: { pagesContainer, limit, prevPageBtn, nextPageBtn },
   } = selectors;
 
   async function fetchAndRender() {
     try {
-      const items = await fetchItems({
+      const { data, pagination } = await fetchItems({
         search: state.search,
         sortBy: state.sortBy,
         order: state.order,
         page: state.page,
         limit: state.limit,
       });
-      renderTable(items);
-      renderPages([1, 2, 3, 4, 5], state.page);
+      renderTable(data);
+      renderPages(pagination);
     } catch (err) {
       console.error("Fetch error:", err);
     }
@@ -57,21 +57,19 @@ document.addEventListener("DOMContentLoaded", () => {
     handleModalStateFromURL();
   }
 
-  // Window / History Events
   window.addEventListener("popstate", handleSyncAndRender);
 
-  // Search Input Event
   searchInput.addEventListener("input", (e) => {
     clearTimeout(searchTimeout);
     state.search = e.target.value.trim();
 
     searchTimeout = setTimeout(() => {
+      state.page = 1;
       updateURL();
       fetchAndRender();
     }, 300);
   });
 
-  // Table Sorting Header Clicks
   sortableColumns.forEach((th) => {
     th.addEventListener("click", () => {
       const column = th.dataset.sort;
@@ -186,10 +184,20 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     state.limit = parseInt(e.target.value);
+    state.page = 1;
     updateURL();
     fetchAndRender();
   });
 
-  // Initial Boot Sequence
+  prevPageBtn.addEventListener("click", () => {
+    changePage(state.page - 1);
+    fetchAndRender();
+  });
+
+  nextPageBtn.addEventListener("click", () => {
+    changePage(state.page + 1);
+    fetchAndRender();
+  });
+
   handleSyncAndRender();
 });
