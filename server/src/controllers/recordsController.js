@@ -3,8 +3,20 @@ import { RecordService } from "../services/recordsService.js";
 import { asyncHandler } from "../utils.js";
 
 const getAllRecords = asyncHandler(async (req, res) => {
-  const { search = "", sortBy = "id", order = "asc" } = req.query;
-  const records = await RecordService.getAllRecords(sortBy, order, search);
+  const {
+    search = "",
+    sortBy = "id",
+    order = "asc",
+    page = 1,
+    limit = 10,
+  } = req.query;
+  const records = await RecordService.getAllRecords(
+    sortBy,
+    order,
+    search,
+    page,
+    limit,
+  );
   res.json(records);
 });
 

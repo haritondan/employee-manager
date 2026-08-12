@@ -1,8 +1,14 @@
 import { RecordModel } from "../models/Record.js";
 
 export const RecordService = {
-  getAllRecords: async (sortBy, order, search) => {
-    const records = await RecordModel.queryAllRecord(sortBy, order, search);
+  getAllRecords: async (sortBy, order, search, page, limit) => {
+    const records = await RecordModel.queryAllRecord(
+      sortBy,
+      order,
+      search,
+      page,
+      limit,
+    );
     return records;
   },
 

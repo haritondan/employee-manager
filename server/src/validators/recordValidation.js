@@ -6,6 +6,8 @@ export const validateGetAllRecords = [
   query("search").optional().isString().trim(),
   query("sortBy").optional().isIn(ALLOWED_SORT_COLUMNS),
   query("order").optional().toLowerCase().isIn(["asc", "desc"]),
+  query("page").optional().toLowerCase().isString(),
+  query("limit").optional().toLowerCase().isString(),
   handleValidationErrors,
 ];
 
