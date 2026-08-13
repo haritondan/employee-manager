@@ -1,6 +1,6 @@
 # Team Directory — Full-Stack Management App
 
-A responsive, full-stack team directory web application built with Vanilla JS, Express, and PostgreSQL. Features server-side pagination, sorting, live filtering via URL query parameters, full CRUD operations, and accessible HTML5 `<dialog>` modals.
+A responsive, full-stack team directory web application built with Vanilla JS, Express, and PostgreSQL. Features server-side pagination, sorting, live filtering via URL query parameters, full CRUD operations, and accessible HTML5 client interface.
 
 ---
 
@@ -24,7 +24,9 @@ Open your terminal and change into the project directory:
 cd /path/to/project-root
 ```
 
-#### Step 2: Build and Launch ContainersRun the following command to build the Node.js application container image and launch both services:
+#### Step 2: Build and Launch Containers
+
+Run the following command to build the Node.js application container image and launch both services:
 
 ```bash
 docker compose up --build
@@ -67,13 +69,19 @@ docker compose down -v
 - Database: PostgreSQL (pg connection pool, parameterized raw SQL queries).
 - DevOps: Docker, Docker Compose.
 
+---
+
 ### Key Features
 
 - URL-Driven State: Syncs search, sorting, modal states, limit, and pagination directly with browser URL params (popstate navigation supported).
 - Backend-Driven Operations: Searching, column sorting, offset pagination, and filtering are executed directly at the database level via SQL query params.
-  -Native Modals: Uses accessible <dialog> elements for Add, Edit, and Delete confirmations with native showModal() and backdrop transitions.
-  -Responsive Card Layout: Automatically transforms the data table into styled mobile card components on screens under 768px via data-label attributes.
-  -Input Sanitization & Validation: Both client-side (Constraint Validation API) and backend route-level validation (express-validator) + HTML escaping to prevent XSS.
+- Native Modals: Uses accessible `<dialog>` elements for Add, Edit, and Delete confirmations with native `showModal()` and backdrop transitions.
+- Responsive Card Layout: Automatically transforms the data table into styled mobile card components on screens under 768px via `data-label` attributes.
+- Input Sanitization & Validation: Both client-side (Constraint Validation API) and backend route-level validation (`express-validator`) + HTML escaping to prevent XSS.
+
+---
+
+### Endpoints Table
 
 | Endpoint           | Method   | Query / Body Params                          | Description                           |
 | :----------------- | :------- | :------------------------------------------- | :------------------------------------ |
